@@ -14,7 +14,7 @@ CONFIGURACIÓN:
 	#Add JAR -> ojdbc
 	#Add JAR -> ojdbc to WebContent -> WEB-INF -> lib -> 
 
-#5 CAPA DAO Data Acces Object
+#  CAPA DAO Data Acces Object
 	#JPA content -> persistence.xml -> properties -> NAME
 	#JPA content -> persistence.xml -> properties -> javax.persistence.jdbc.user
 	#JPA content -> persistence.xml -> properties -> javax.persistence.jdbc.password
