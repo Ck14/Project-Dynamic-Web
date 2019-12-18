@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<h:body>
+	<f:event listener="#{facturaService.listarFacturas}"
+		type="preRenderView"></f:event>
+
+	<h:form id="formFactura">
+		<p:growl id="growl1" life="2000" />
+
+		<p:panel header="Facturas">
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Id Factura" />
+				<p:outputLabel value="#{facturaService.facturaForm.idFactura}" />
+				<p:outputLabel value="Cliente" />
+				<p:inputText value="#{facturaService.facturaForm.cliente}" />
+				<p:outputLabel value="Cui" />
+				<p:inputText value="#{facturaService.facturaForm.cui}" />
+				<p:outputLabel value="Fecha factura" />
+				<p:calendar value="#{facturaService.facturaForm.fechaFactura}"
+					pattern="dd/MM/yyyy">
+					<f:converter converterId="tiemStampConverter"></f:converter>
+				</p:calendar>
+			</h:panelGrid>
+		</p:panel>
+
+		<p:commandButton value="Guardar Factura"
+			action="#{facturaService.crearFactura}" update=":formFactura"
+			oncomplete="PF('dataTableFactura').clearFilters()"
+			rendered="#{facturaService.mostrarBotonGuardar == true}" />
+		<p:commandButton value="Actualizar Factura"
+			action="#{facturaService.actualizarFactura}" update=":formFactura"
+			oncomplete="PF('dataTableFactura').clearFilters()"
+			rendered="#{facturaService.mostrarBotonActualizar == true}" />
+		<p:commandButton value="Nueva Factura"
+			action="#{facturaService.limpiarFormulario}" update=":formFactura"
+			rendered="#{facturaService.mostrarBotonVolver == true}" />
+	</h:form>
+	<h:form>
+		<p:dataTable id="dataTableFactura" widgetVar="dataTableFactura"
+			paginator="true" rows="5" var="fact"
+			value="#{facturaService.listaFactura}"
+			filteredValue="#{facturaService.listaFacturaFiltered}">
+
+			<p:column headerText="Id Factura">
+				<h:outputText value="#{fact.idFactura}" />
+			</p:column>
+			<p:column headerText="Cliente" filterBy="#{fact.cliente}"
+				filterMatchMode="contains">
+				<h:outputText value="#{fact.cliente}" />
+			</p:column>
+			<p:column headerText="Cui">
+				<h:outputText value="#{fact.cui}" />
+			</p:column>
+			<p:column headerText="Fecha Factura">
+				<h:outputText value="#{fact.fechaFactura}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Fecha Actualizacion">
+				<h:outputText value="#{fact.fechaActualizacion}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputText>
+			</p:column>
+			<p:column headerText="Acciones">
+				<p:commandButton icon="ui-icon-arrowreturn-1-n"
+					action="#{facturaService.llenarFormulario(fact)}" update=":formFactura"/>
+				<p:commandButton icon="ui-icon-trash"
+					action="#{facturaService.eliminarFactura(fact)}"
+					update=":formFactura"
+					oncomplete="PF('dataTableFactura').clearFilters()" />
+				<p:commandButton icon="ui-icon-comment"
+					action="#{facturaService.irADetalle(fact)}" />
+
+			</p:column>
+
+		</p:dataTable>
+
+	</h:form>
+</h:body>
+</html>
