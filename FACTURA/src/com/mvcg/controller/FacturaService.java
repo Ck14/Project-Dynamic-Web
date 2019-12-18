@@ -15,6 +15,7 @@ import com.mvcg.entidades.Factura;
 import com.mvcg.util.ManageUtil;
 
 @ManagedBean
+//@ManagedBean (name= "facturaService", eager=true)
 @SessionScoped
 
 public class FacturaService implements Serializable{
@@ -24,8 +25,8 @@ public class FacturaService implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	private Factura facturaForm = new Factura();
-	private List listaFactura = new ArrayList<Factura>();
-	private List listaFacturaFiltered = new ArrayList<Factura>();
+	private List listaFactura = new ArrayList<Factura>();// lista para llenar el dataTable
+	private List listaFacturaFiltered = new ArrayList<Factura>();// lista para filtrarla
 	private FacturaDao facturaDao = new FacturaDao();
 	private String respuesta = "";
 	private boolean mostrarBotonGuardar = true;
